@@ -1,0 +1,16 @@
+<%- include("partials/head") -%>
+<%- include("partials/navLogOut") -%>
+
+<div class="w-75 m-auto">
+    <p class="display-4">Enregistrement</p>
+    <form action="/product/new" method="post">
+        <input class="form-control" type="text" name="name" placeholder="name" >
+        <input class="form-control" type="text" name="email" placeholder="Email Address" >
+        <input class="form-control" type="text" name="password" placeholder="Password" >
+        <div class="text-center"><button class="btn bg-info w-100 text-white" type="submit">Connexion</button></div>
+        <div class="text-center mt-3"><a class="text-dark" href="/signup">Retour à la Connexion</a></div>
+    </form><br>
+    <%- include("partials/message") -%>
+</div>
+
+<%- include('partials/footer') -%>

@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const homeController = require('./homeController');
 
-router.get("/", homeController.allProducts);
+router.get("/", homeController.login);
+router.get("/signup", homeController.signup);
+
+router.get("/index", homeController.allProducts);
 
 router.get("/new", homeController.getNew);
 router.post("/product/new", homeController.saveProduct);

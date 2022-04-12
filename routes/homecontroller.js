@@ -1,5 +1,13 @@
 const Product = require("../model/product");
 
+exports.login = (req, res)=>{
+    res.render("login");
+};
+
+exports.signup = (req, res)=>{
+    res.render("signup");
+};
+
 exports.allProducts = (req, res)=>{
     Product.find({})
     .then(products => res.render ("index", {products}))

@@ -1,4 +1,8 @@
- <%- include("partials/header") -%>
+ <%- include("partials/head") -%>
+ <!-- Vas avoir un "if" quelque chose si demande la page localhost :3000/index avant qu’il fait login -->
+ <%- include("partials/navLogIn") -%>
+ <!-- et "else" l'autre header si pas loger
+ <%- include("partials/navLogOut") -%> -->
 
 <div class="tabIndex w-75 mx-auto table-responsive">
 <%- include("partials/message") -%>
