@@ -1,0 +1,14 @@
+<%- include("partials/header") -%>
+
+<div class="w-75 m-auto">
+    <p class="display-4">Nouveau Produit</p>
+    <form action="/product/new" method="post">
+        <input class="form-control" type="text" name="code" placeholder="Code du Produit" >
+        <input class="form-control" type="text" name="description" placeholder="Description" >
+        <input class="form-control" type="number" name="price" placeholder="Prix du Produit" >
+        <div class="text-center"><button class="btn bg-info w-100 text-white" type="submit">Ajouter Nouveau Produit</button></div>
+    </form><br>
+    <%- include("partials/message") -%>
+</div>
+
+<%- include('partials/footer') -%>

@@ -1,0 +1,17 @@
+header{
+	margin-bottom: 10vh;
+}
+input{
+	margin-bottom: 15px;
+}
+
+.link {
+	color: white;
+	text-decoration: none;
+}
+
+.link:hover{
+	color: #083f47;
+	text-decoration:none
+}
+

@@ -1,0 +1,39 @@
+ <%- include("partials/header") -%>
+
+<div class="tabIndex w-75 mx-auto table-responsive">
+<%- include("partials/message") -%>
+  <table class="table table-bordered table-striped table-hover" id="dataTable">
+    <thead>
+        <tr class="table-primary">
+            <th>Code</td>
+            <th>Description</td>
+            <th>Price</td>
+            <th>Opération</td>
+        </tr>
+    </thead>
+    <tbody>
+        <% products.forEach(product => { %>
+            <tr>
+                <td><%= product.code%></td>
+                <td><%= product.description%></td>
+                <td><%= product.price%></td>
+                <td>         
+                    <div class="btn-group">
+                        <form action="/edit/<%=product.id%>" method="get"><button type="submit" class="btn btn-info " id="edit">Éditer</button></form>
+                        <form action="/delete/<%=product.id%>?_method=delete" method="post"><button type="submit" class="btn btn-danger">Supprimer</button></form>       
+                    </div>
+                </td>
+            </tr>
+            <%})%>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>Code</td>
+            <td>Description</td>
+            <td>Price</td>
+            <td>Opération</td>
+        </tr>
+    </tfoot>
+</table> 
+</div>
+  <%- include('partials/footer') -%>
