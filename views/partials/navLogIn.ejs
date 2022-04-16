@@ -5,7 +5,18 @@
           <a href="/index" class="link">Systeme de Gestion de Produits</a>
         </div>
         <div>
+          <% if(typeof name !== "undefined") {%> 
           <ul class="nav">
+            <%
+            const fullName = name.first + ' ' + name.last
+            %> 
+
+            <li>
+              <a class="nav-link text-white" href="#"><%= fullName %> </a>
+            </li>
+            <li>
+              <a class="nav-link text-white" href="/logout">Logout</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link active text-white" aria-current="page" href="/index">Produits</a>
             </li>
@@ -16,6 +27,7 @@
               <a class="nav-link text-white" href="/search">Recherche</a>
             </li>
           </ul>
+          <% } %> 
         </div>
       </nav>
     </header>
