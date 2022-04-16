@@ -24,8 +24,7 @@ router.get("/user/login", homeController.login);
 router.post("/user/login", homeController.authenticate);
 
 
-router.get("/logout",(req, res)=>{
-    req.logout();
-})
+router.get("/logout", homeController.logout)
+
 
 module.exports = router;
