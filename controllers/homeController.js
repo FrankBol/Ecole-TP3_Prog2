@@ -127,5 +127,13 @@ exports.saveUser = (req, res, next) => {
 
 exports.authenticate =  passport.authenticate("local", {
     failureRedirect: "login",
-    successRedirect: "/index"
+    successRedirect: "/index", 
+    failureFlash: true
 })
+
+exports.logout = (req, res) => {
+    if (req.isAuthenticated()) {
+        req.logout();
+    }
+    res.render("login")
+}
