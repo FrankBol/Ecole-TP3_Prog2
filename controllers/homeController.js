@@ -13,9 +13,14 @@ exports.signup = (req, res)=>{
 exports.allProducts = (req, res)=>{
 
     Product.find({})
-    .then(products => res.render ("index", {products: products, name: req.user.name}))
+    .then(products => res.render ("indexConnected", {products: products, name: req.user.name}))
     .catch(error=>console.log(error));
 };
+
+exports.allProductsNoUser = (req, res)=>{
+   Product.find({}).then(products => res.render("index", {products: products})) 
+   .catch(error=>console.log(error));
+}
 
 exports.getSearch = (req, res)=>{
     res.render("search", {product : undefined, name: req.user.name});
@@ -50,7 +55,7 @@ exports.saveProduct = (req, res)=>{
     newProduct.save()
     .then(()=>{
             req.flash("success", `Produit ajouté avec succès CODE : ${productParams.code}`);
-            res.redirect("/index");
+            res.redirect("/indexConnected");
         })
     .catch(error=>{
         req.flash("error", `Erreur lors de la création de Produit`);
@@ -70,8 +75,8 @@ exports.putEdit = (req, res)=>{
     .then(user =>{
         const codePut = req.body.code;
         req.flash("success", `Succes de la mise à jour du prodit CODE : ${codePut}`);
-        res.redirect("/index");
-    }).catch(error => {res.redirect("/index");});
+        res.redirect("/indexConnected");
+    }).catch(error => {res.redirect("/indexConnected");});
 };
 
 exports.getEdit = (req, res)=>{
@@ -89,10 +94,10 @@ exports.delete = (req, res)=>{
                 Product.deleteOne(searchId)
                 .then(() => {
                     req.flash("success", `Produit Supprimé avec succès CODE : ${product.code}` );
-                    res.redirect("/index"); 
+                    res.redirect("/indexConnected"); 
                 });          
         })            
-        .catch(()=>{res.redirect("/index");});    
+        .catch(()=>{res.redirect("/indexConnected");});    
 };
 
 exports.saveUser = (req, res, next) => {
@@ -112,7 +117,6 @@ exports.saveUser = (req, res, next) => {
                 const newUser = new User(userParams);
                 
                 User.register(newUser, req.body.password, (error, user)=>{
-                    console.log(newUser);
                     if(error){
                         console.log(error);
                         res.render("signup")
@@ -127,7 +131,7 @@ exports.saveUser = (req, res, next) => {
 
 exports.authenticate =  passport.authenticate("local", {
     failureRedirect: "login",
-    successRedirect: "/index", 
+    successRedirect: "/indexConnected", 
     failureFlash: true
 })
 
