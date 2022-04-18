@@ -11,20 +11,24 @@ exports.signup = (req, res)=>{
 };
 
 exports.allProducts = (req, res)=>{
+    let logStatus = req.isAuthenticated();
 
+    if (req.isAuthenticated()){
     Product.find({})
-    .then(products => res.render ("indexConnected", {products: products, name: req.user.name}))
+    .then(products => res.render ("index", {products: products, name: req.user.name, logStatus}))
     .catch(error=>console.log(error));
-};
+    }else{
+        Product.find({})
+        .then(products => res.render ("index", {products: products, logStatus}))
+        .catch(error=>console.log(error));
+    }
 
-exports.allProductsNoUser = (req, res)=>{
-   Product.find({}).then(products => res.render("index", {products: products})) 
-   .catch(error=>console.log(error));
-}
+};
 
 exports.getSearch = (req, res)=>{
-    res.render("search", {product : undefined, name: req.user.name});
+    res.render("search", {product : undefined, name: req.user.name });
 };
+
 exports.getProductSearch = (req, res)=>{
 
         const searchByCode = { code: req.query.code};
@@ -43,6 +47,7 @@ exports.getProductSearch = (req, res)=>{
 exports.getNew = (req, res)=>{
     res.render("new", {name: req.user.name});
 };
+
 exports.saveProduct = (req, res)=>{
 
     let productParams = {
@@ -131,13 +136,13 @@ exports.saveUser = (req, res, next) => {
 
 exports.authenticate =  passport.authenticate("local", {
     failureRedirect: "login",
-    successRedirect: "/indexConnected", 
+    successRedirect: "/index", 
     failureFlash: true
-})
+});
 
 exports.logout = (req, res) => {
     if (req.isAuthenticated()) {
         req.logout();
     }
-    res.render("login")
-}
+    res.render("login");
+};

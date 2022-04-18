@@ -1,6 +1,7 @@
 <%- include("partials/head") -%>
 
-<%- include("partials/navLogOut") -%>
+<% if (logStatus) {%> <%- include("partials/navLogIn")%> 
+<%}else {%> <%- include("partials/navLogOut") %><%}%>
 
 <div class="tabIndex w-75 mx-auto table-responsive">
     <%- include("partials/message") -%>

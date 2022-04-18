@@ -6,8 +6,7 @@ const homeController = require("./homeController");
 router.get("/", homeController.login);
 router.get("/signup", homeController.signup);
 
-router.get("/index", homeController.allProductsNoUser);
-router.get("/indexConnected", homeController.allProducts);
+router.get("/index", homeController.allProducts);
 
 router.get("/new", homeController.getNew);
 router.post("/product/new", homeController.saveProduct);
