@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-passportLocalMongoose = require("passport-local-mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const userSchema = new mongoose.Schema({
     name : {
@@ -20,13 +20,6 @@ const userSchema = new mongoose.Schema({
         lowercase: true,
         unique: true
     },
-
-    zipCode : {
-        type: Number,
-        min : [10000, "Zip code too short"],
-        max : 99999
-    },
-
     
 }, {
     timestamps: true
@@ -37,4 +30,5 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.plugin(passportLocalMongoose, {usernameField: "email"});
+
 module.exports = mongoose.model("User", userSchema);

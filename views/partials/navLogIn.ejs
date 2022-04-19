@@ -11,17 +11,17 @@
             const fullName = name.first + ' ' + name.last
             %> 
               <span class="nav-link text-warning" href="#">Bonjour <%= fullName %> </span>
-            <li>
-              <a class="nav-link text-white" href="/logout">Logout</a>
-            </li>
             <li class="nav-item">
-              <a class="nav-link active text-white" aria-current="page" href="/indexConnected">Produits</a>
+              <a class="nav-link active text-white" aria-current="page" href="/index">Produits</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-white" href="/new">Ajouter un produit</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-white" href="/search">Recherche</a>
+            </li>
+            <li >
+              <a class="btn btn-danger" href="/logout">Logout</a>
             </li>
           </ul>
           <% } %> 

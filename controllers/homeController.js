@@ -26,11 +26,14 @@ exports.allProducts = (req, res)=>{
 };
 
 exports.getSearch = (req, res)=>{
-    res.render("search", {product : undefined, name: req.user.name });
+    if (req.isAuthenticated()){
+        res.render("search", {product : undefined, name: req.user.name });
+    }else{res.render("login");};
+
 };
 
 exports.getProductSearch = (req, res)=>{
-
+        if (req.isAuthenticated()){
         const searchByCode = { code: req.query.code};
         Product.findOne(searchByCode)
         .then(product => {
@@ -41,68 +44,83 @@ exports.getProductSearch = (req, res)=>{
                 res.redirect("/search");
             } 
         })             
-        .catch(error=>console.log(error));       
+        .catch(error=>console.log(error));  
+        }else{res.render("login");};
 };
 
 exports.getNew = (req, res)=>{
-    res.render("new", {name: req.user.name});
+    if (req.isAuthenticated()){
+        res.render("new", {name: req.user.name});
+    }else{res.render("login");};
+    
 };
 
 exports.saveProduct = (req, res)=>{
+    if (req.isAuthenticated()){
+        let productParams = {
+            code : req.body.code,
+            description : req.body.description,
+            price : req.body.price
+        };
+    
+        const newProduct = new Product(productParams);
+        newProduct.save()
+        .then(()=>{
+                req.flash("success", `Produit ajouté avec succès CODE : ${productParams.code}`);
+                res.redirect("/index");
+            })
+        .catch(error=>{
+            req.flash("error", `Erreur lors de la création de Produit`);
+            res.redirect("/new");
+        });
+    }else{res.render("login");};
 
-    let productParams = {
-        code : req.body.code,
-        description : req.body.description,
-        price : req.body.price
-    };
-
-    const newProduct = new Product(productParams);
-    newProduct.save()
-    .then(()=>{
-            req.flash("success", `Produit ajouté avec succès CODE : ${productParams.code}`);
-            res.redirect("/indexConnected");
-        })
-    .catch(error=>{
-        req.flash("error", `Erreur lors de la création de Produit`);
-        res.redirect("/new");
-    });
 };
 
 exports.putEdit = (req, res)=>{
-    const searchId = {_id : req.params.id};
-    Product.updateOne(searchId, 
-    {$set:
-    {
-        code : req.body.code,
-        description : req.body.description,
-        price : req.body.price
-    }})
-    .then(user =>{
-        const codePut = req.body.code;
-        req.flash("success", `Succes de la mise à jour du prodit CODE : ${codePut}`);
-        res.redirect("/indexConnected");
-    }).catch(error => {res.redirect("/indexConnected");});
+    if (req.isAuthenticated()){
+        const searchId = {_id : req.params.id};
+        Product.updateOne(searchId, 
+        {$set:
+        {
+            code : req.body.code,
+            description : req.body.description,
+            price : req.body.price
+        }})
+        .then(user =>{
+            const codePut = req.body.code;
+            req.flash("success", `Succes de la mise à jour du prodit CODE : ${codePut}`);
+            res.redirect("/index");
+        }).catch(error => {res.redirect("/index");});
+    }else{res.render("login");};
+
 };
 
 exports.getEdit = (req, res)=>{
-    const searchId = {_id : req.params.id};
+    if (req.isAuthenticated()){
+        const searchId = {_id : req.params.id};
     
         Product.findById(searchId)
         .then(product => {res.render("edit", {product});})                  
         .catch(error=>console.log(error));    
+    }else{res.render("login");};
+
 };
 
 exports.delete = (req, res)=>{
-    const searchId = {_id : req.params.id};
-    Product.findById(searchId)
-        .then(product => {
-                Product.deleteOne(searchId)
-                .then(() => {
-                    req.flash("success", `Produit Supprimé avec succès CODE : ${product.code}` );
-                    res.redirect("/indexConnected"); 
-                });          
-        })            
-        .catch(()=>{res.redirect("/indexConnected");});    
+    if (req.isAuthenticated()){
+        const searchId = {_id : req.params.id};
+        Product.findById(searchId)
+            .then(product => {
+                    Product.deleteOne(searchId)
+                    .then(() => {
+                        req.flash("success", `Produit Supprimé avec succès CODE : ${product.code}` );
+                        res.redirect("/index"); 
+                    });          
+            })            
+            .catch(()=>{res.redirect("/index");});  
+    }else{res.render("login");};
+  
 };
 
 exports.saveUser = (req, res, next) => {
@@ -123,12 +141,12 @@ exports.saveUser = (req, res, next) => {
                 
                 User.register(newUser, req.body.password, (error, user)=>{
                     if(error){
-                        console.log(error);
-                        res.render("signup")
+                        req.flash("error", `Erreur lors de la création du Compte`);
+                        res.redirect("/signup");
                         next();
                     }
                     else{
-                        res.render("login")
+                        res.render("login");
                         next();
                     }
                 });

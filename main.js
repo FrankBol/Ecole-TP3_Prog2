@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const connectFlash = require("connect-flash");
 const methodOverride = require("method-override");
 
-app = express();
-
 const passport = require ('passport');
 const session = require('express-session');
 const cookieParser = require("cookie-parser");
@@ -15,12 +13,11 @@ const router =  require("./controllers/routes");
 const layouts = require("express-ejs-layouts");
 const dotenv = require("dotenv");
 
+app = express();
+
 dotenv.config({path: './config.env'});
 
 app.set("view engine", "ejs");
-
-const port = process.env.PORT || 3000;
-
 
 app.use(layouts);
 app.set('layout', './layouts/full-width');
@@ -30,7 +27,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 
-const DATABASE_LOCAL = process.env.DATABASE_LOCAL
+const DATABASE_LOCAL = process.env.DATABASE_LOCAL;
 mongoose.connect(
   DATABASE_LOCAL,
   { useNewUrlParser: true }
@@ -45,7 +42,7 @@ app.use(session({
   saveUninitialized: false,
 
   cookie : {
-    maxAge: 40000
+    maxAge: 4000000
   }
 
 }));
@@ -66,7 +63,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(router);
 
-
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Our Server running at http://localhost:${port}`);
 });
